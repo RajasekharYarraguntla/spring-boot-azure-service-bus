@@ -1,35 +1,37 @@
 package com.raja.controller;
 
-
-import com.raja.config.servicebus.producer.ServiceBusProducer;
-import com.raja.dto.OrderEvent;
-import com.raja.dto.UserEvent;
+import com.raja.producer.MessageProducer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/messages")
+@RequestMapping("/publish")
 public class MessageController {
 
-    private final ServiceBusProducer producer;
+    private final MessageProducer producer;
 
-    @Value("${azure.servicebus.topic-name}")
-    private String topicName;
+    @Value("${azure.servicebus.topics.order}")
+    private String orderTopic;
 
-    public MessageController(ServiceBusProducer producer) {
+    @Value("${azure.servicebus.topics.payment}")
+    private String paymentTopic;
+
+    @Value("${azure.servicebus.topics.shipment}")
+    private String shipmentTopic;
+
+    public MessageController(MessageProducer producer) {
         this.producer = producer;
     }
 
-    @PostMapping("/users")
-    public String sendUser(@Validated @RequestBody UserEvent message) {
-        producer.send(topicName, message);
-        return "Message sent to topic";
-    }
-
-    @PostMapping("/orders")
-    public String sendOrder(@Validated @RequestBody OrderEvent message) {
-        producer.send(topicName, message);
-        return "Message sent to topic";
+    @PostMapping("/{type}")
+    public String publish(@PathVariable String type, @RequestBody String message) {
+        System.out.println("Publishing message to " + type + " topic: " + message);
+        switch (type) {
+            case "order" -> producer.send(orderTopic, message);
+            case "payment" -> producer.send(paymentTopic, message);
+            case "shipment" -> producer.send(shipmentTopic, message);
+            default -> throw new IllegalArgumentException("Invalid topic type");
+        }
+        return "Message sent to " + type;
     }
 }

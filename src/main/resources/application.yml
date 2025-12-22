@@ -1,6 +1,14 @@
-azure:
-  servicebus:
-    connection-string: connection-string
-    topic-name: raja-topic
 server:
   port: 80
+
+azure:
+  servicebus:
+    topics:
+      order: order-topic
+      payment: payment-topic
+      shipment: shipment-topic
+
+    subscriptions:
+      order: order-sub
+      payment: payment-sub
+      shipment: shipment-sub

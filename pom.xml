@@ -15,57 +15,44 @@
 
 	<groupId>com.raja</groupId>
 	<artifactId>spring-boot-azure-service-bus</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>spring-boot-azure-service-bus</name>
 	<description>Spring Boot 3.5.9 + Java 24 + Azure Service Bus</description>
 
 	<properties>
-		<!-- Java 24 -->
 		<java.version>24</java.version>
+		<spring-boot.version>4.0.0</spring-boot.version>
+		<spring-cloud-azure.version>5.10.0</spring-cloud-azure.version>
 	</properties>
 
 	<dependencies>
-
-		<!-- Core Spring Boot -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<!-- Optional REST API -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<!-- ✅ Azure Service Bus (Native SDK – Java 24 safe) -->
 		<dependency>
-			<groupId>com.azure</groupId>
-			<artifactId>azure-messaging-servicebus</artifactId>
-			<version>7.17.5</version>
+			<groupId>com.azure.spring</groupId>
+			<artifactId>spring-cloud-azure-starter-servicebus-jms</artifactId>
 		</dependency>
-
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-		</dependency>
-
-		<!-- Optional Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Testing -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.azure.spring</groupId>
+				<artifactId>spring-cloud-azure-dependencies</artifactId>
+				<version>6.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
