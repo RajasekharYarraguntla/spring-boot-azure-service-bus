@@ -1,0 +1,6 @@
+azure:
+  servicebus:
+    connection-string: connection-string
+    topic-name: raja-topic
+server:
+  port: 80
